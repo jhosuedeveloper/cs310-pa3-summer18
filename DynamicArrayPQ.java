@@ -5,13 +5,13 @@ public class DynamicArrayPQ<T, P extends Comparable<P>> implements PriorityQueue
 
 
     //attributes
-    ArrayList<Node<T,P>> array = new ArrayList<Node<T,P>>();
+    private ArrayList<Node<T,P>> array;
 
 
     //constructor
     public DynamicArrayPQ()
     {
-      array.clear();
+      array = new ArrayList<Node<T,P>>();
     }
 
     //add the given value using the provided priority
@@ -39,6 +39,8 @@ public class DynamicArrayPQ<T, P extends Comparable<P>> implements PriorityQueue
       }
       array.set(index, smallest_p_val);
       array.remove(array.get(array.size()));
+
+      return null;
     }//end of dequeue function
 
     //return the value of the element with highest priority
@@ -90,10 +92,17 @@ public class DynamicArrayPQ<T, P extends Comparable<P>> implements PriorityQueue
     //merge two priority queues into one and return the merged priority queue
     public DynamicArrayPQ  merge(DynamicArrayPQ other)
     {
-      for(int i =0;i<other.array.size();i++)
-      {
-        this.enqueue(other.array.get(i).value, other.array.get(i).priority );
-      }
+      T x;
+      P y;
+
+
+
+       for(int i =0;i<other.array.size();i++)
+       {
+        x = ((Node<T,P>)other.getarr().get(i)).getval();
+        y = ((Node<T,P>)other.array.get(i)).getpri();
+        this.enqueue(x, y);
+       }
 
       return this;
     }
@@ -106,10 +115,25 @@ public class DynamicArrayPQ<T, P extends Comparable<P>> implements PriorityQueue
 
 
 
-    private class Node<T, P>
+    public class Node<T, P>
     {
-      T value;
-      P priority;
+      private T value;
+      private P priority;
+
+      public T getval()
+      {
+        return this.value;
+      }
+      public P getpri()
+      {
+        return this.priority;
+      }
+
+    }
+
+    public ArrayList<Node<T,P>> getarr()
+    {
+      return this.array;
     }
 
 
