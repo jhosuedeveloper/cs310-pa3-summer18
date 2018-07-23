@@ -2,15 +2,40 @@
 public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
 {
 
+    //atributes
+    Node<T,P> root;
+    int size;
     //constructor
     public AVLPQ()
     {
-      //your code here
+      size =0;
+      root = new Node<T,P>();
     }
 
     //add the given value using the provided priority
     public void enqueue(T value, P priority)
     {
+      Node<T,P> x = new Node<T,P>();
+      x.value = value;
+      x.priority = priority;
+
+      if(size==0)
+      {
+        root = x;
+        size++;
+      }
+      else if(root.priority<=priority)//left side
+      {
+
+      }
+      else if(root.priority>priority)//right side
+      {
+
+      }
+      else
+      {
+        System.out.println("there is something wrong going on");
+      }
       //your code here
     }
 
@@ -58,6 +83,38 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
         return 0;
     }
 
+
+    //---------------------------extra classes and methods
+    private class Node<T, P>
+    {
+      private T value;
+      private P priority;
+      private Node<T,P> left, right;
+
+      public Node()
+      {
+        left=new Node<T,P>();
+        right=new Node<T,P>();
+      }
+
+
+      public T getval()
+      {
+        return this.value;
+      }
+      public P getpri()
+      {
+        return this.priority;
+      }
+
+    }//end of node
+
+
+
+
+
+
+
     //==================================================================
     // do not modify anything below
     //==================================================================
@@ -66,4 +123,5 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
     {
       return merge((AVLPQ)other);
     }
+
 }

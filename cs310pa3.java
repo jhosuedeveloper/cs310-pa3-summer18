@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.util.Vector;
 import java.util.Random;
 
-
 public class cs310pa3
 {
     //all possible types of PQs
@@ -129,6 +128,7 @@ public class cs310pa3
         String value=pq3.peek();
         Double priority=pq3.peekPriority();
         System.out.print("("+value+","+priority+") ");
+        pq3.dequeue();
       }
       System.out.println("[10] done.");
 
