@@ -120,6 +120,7 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
       private Node<T,P> left;
       private Node<T,P> right;
       private Node<T,P> repeat;
+      private Node<T,P> parent;
       private int number_diff;
 
 
@@ -230,7 +231,7 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
     //input       : unbalanced node
     //output      : none
     //Description : it does all 4 type rotations including double rotations.
-    public void rotate_fix(Node<T,P> x  )
+    public void rotate_fix(Node<T,P> k2  )
     {
       int a = largest_path(x.left);
       int b = largest_path(x.right);
@@ -242,10 +243,58 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
         int z = largest_path(x.right);
         if(((y<x)&&(y<z))||((y>x)&&(y>z)))//double left right rotation
         {
-          
+          Node<T,P> k3 = k2;
+
+          Node<T,P> k1 = k3.left;
+          Node<T,P> k2 = k1.right;
+          Node<T,P> A = k1.left;
+          Node<T,P> B = k2.left;
+          Node<T,P> C = k2.right;
+          Node<T,P> D = k3.right;
+
+          Node<T,P> nalk3 = new Node<T,P>();
+          nalk3.value = k3.value;
+          nalk3.priority = k3.priority;
+
+          k3.value = k2.value;
+          k3.priority = k2.priority;
+
+          k3.left = k1;
+
+          k2.value = nalk3.value;
+          k2.priority = nalk3.priority;
+
+          k3.right = k2;
+
+          k1.left = A;
+          k1.right = B;
+          k2.left = C;
+          k2.right = D;
         }
         else//single left right rotation
         {
+          Node<T,P> k1 = k2.left;
+          Node<T,P> A = k1.left;
+          Node<T,P> B = k1.right;
+          Node<T,P> C = k2.right;
+
+          Node<T,P> nalk2 = new Node<T,P>();
+          nalk2.value = k2.value;
+          nalk2.priority = k2.priority;
+
+          k2.value = k1.value;
+          k2.priority = k1.priority;
+
+          k2.left = A;
+
+          k1.value = nalk2.value;
+          k1.priority = nalk2.priority;
+
+          k2.right = k1;
+          k1.left = B;
+          k1.right = C;
+
+          /*
           Node<T,P> a1 = x.left;
           x.left = a1.right;
           a1.right = x;
@@ -253,7 +302,7 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
           {
             this.root = a1;
           }
-
+          */
         }
       }
       else//---right left rotation
@@ -263,19 +312,56 @@ public class AVLPQ<T, P extends Comparable<P>> implements PriorityQueue<T,P>
         int z = largest_path(x.right.right)+1;
         if(((y<x)&&(y<z))||((y>x)&&(y>z)))//double right left rotation
         {
+          Node<T,P> k3 = k2;
 
+          Node<T,P> k1 = k3.right;
+          Node<T,P> k2 = k1.left;
+          Node<T,P> A = k3.left;
+          Node<T,P> B = k2.left;
+          Node<T,P> C = k2.right;
+          Node<T,P> D = k1.right;
+
+          Node<T,P> nalk3 = new Node<T,P>();
+          nalk3.value = k3.value;
+          nalk3.priority = k3.priority;
+
+          k3.value = k2.value;
+          k3.priority = k2.priority;
+
+          k3.right = k1;
+
+          k2.value = nalk3.value;
+          k2.priority = nalk3.priority;
+
+          k3.left = k2;
+
+          k2.left = A;
+          k2.right = B;
+          k1.left = C;
+          k2.right = D;
         }
         else//single right left rotation
         {
-          Node<T,P> a2 = x.right;
-          x.right = a2.left;
-          a2.left = x;
+          Node<T,P> k1 = k2.right;
+          Node<T,P> A = k2.left;
+          Node<T,P> B = k1.left;
+          Node<T,P> C = k1.right;
 
-          if(x==root)
-          {
-            this.root = a2;
-          }
+          Node<T,P> nalk2 = new Node<T,P>();
+          nalk2.value = k2.value;
+          nalk2.priority = k2.priority;
 
+          k2.value = k1.value;
+          k2.priority = k1.priority;
+
+          k2.right = C;
+
+          k1.value = nalk2.value;
+          k1.priority = nalk2.priority;
+
+          k2.left = k1;
+          k1.left = A;
+          k1.right = B;
         }
       }
 
